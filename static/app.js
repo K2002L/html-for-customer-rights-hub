@@ -88,6 +88,53 @@ function openModal(title, html) {
     body.classList.add('modal-open');
 }
 
+function renderLiveChatChooser() {
+    openModal(
+        'Live Chat',
+        `
+        <div class="live-chat-shell">
+            <div class="live-chat-stage">
+                <div class="live-chat-actions">
+                    <button type="button" class="primary-btn live-chat-choice" data-open-chat="ai">AI Service</button>
+                    <button type="button" class="primary-btn live-chat-choice" data-open-chat="human">Human Service</button>
+                </div>
+            </div>
+        </div>
+        `,
+    );
+}
+
+function renderChatModal(mode) {
+    const isAi = mode === 'ai';
+    const title = isAi ? 'Chat with AI' : 'Chat with Human';
+    const badge = isAi ? 'AI' : 'HS';
+    const greeting = 'You can ask whatever you want';
+    const humanNotice = 'Waiting for the human customer service representative to join the chat. Feel free to send your question here';
+
+    openModal(
+        title,
+        `
+        <div class="chat-modal-shell" data-chat-shell="${mode}">
+            <div class="chat-modal-surface">
+                ${isAi ? '' : `<div class="chat-notice-banner" data-human-chat-notice>${humanNotice}</div>`}
+                <div class="chat-thread" data-chat-thread>
+                    ${isAi ? `
+                    <div class="chat-message-row">
+                        <span class="chat-avatar">${badge}</span>
+                        <div class="chat-message-bubble">${greeting}</div>
+                    </div>
+                    ` : ''}
+                </div>
+                <form class="chat-compose" data-chat-form="${mode}">
+                    <textarea name="message" rows="2" placeholder="Enter your message"></textarea>
+                    <button type="submit" class="primary-btn chat-send-btn">Send</button>
+                </form>
+            </div>
+        </div>
+        `,
+    );
+}
+
 function closeModal() {
     if (!modal) return;
     modal.hidden = true;
@@ -99,21 +146,7 @@ document.addEventListener('click', (event) => {
     if (trigger) {
         const modalType = trigger.dataset.modal;
         if (modalType === 'start-chat') {
-            openModal(
-                'Support Chat',
-                `
-                <div class="modal-stack">
-                    <p>Select the type of support you want to start.</p>
-                    <div class="modal-choice-grid">
-                        <button type="button" class="outline-btn" data-chat-mode="AI Support">AI Support</button>
-                        <button type="button" class="outline-btn" data-chat-mode="Human Adviser">Human Adviser</button>
-                    </div>
-                    <div class="chat-window">
-                        <div class="chat-bubble"><strong>Assistant:</strong> Hello. Please choose AI Support or Human Adviser to begin.</div>
-                    </div>
-                </div>
-                `,
-            );
+            renderLiveChatChooser();
         }
         if (modalType === 'call-support') {
             openModal(
@@ -132,9 +165,9 @@ document.addEventListener('click', (event) => {
                 `
                 <div class="modal-stack">
                     <div class="schedule-list">
-                        <div><strong>Mon 10:00 AM</strong><span>Legal intake clinic</span></div>
-                        <div><strong>Wed 2:00 PM</strong><span>Consumer dispute consultation</span></div>
-                        <div><strong>Fri 11:00 AM</strong><span>Fraud recovery support</span></div>
+                        <div><strong>Mon-Fri 9:00 AM - 5:00 PM</strong><span>Legal intake clinic</span></div>
+                        <div><strong>Mon-Fri 9:00 AM - 5:00 PM</strong><span>Consumer dispute consultation</span></div>
+                        <div><strong>24/7</strong><span>Fraud recovery support</span></div>
                     </div>
                     <p>Email <strong>legal@consumerrights.org</strong> to reserve a slot.</p>
                 </div>
@@ -153,6 +186,11 @@ document.addEventListener('click', (event) => {
                 `,
             );
         }
+    }
+
+    const chatOpenTrigger = event.target.closest('[data-open-chat]');
+    if (chatOpenTrigger) {
+        renderChatModal(chatOpenTrigger.dataset.openChat);
     }
 
     const downloadTrigger = event.target.closest('[data-download-title]');
@@ -197,6 +235,42 @@ document.addEventListener('click', (event) => {
         chatWindow.innerHTML += `<div class="chat-bubble user-bubble"><strong>You:</strong> I want ${mode}.</div>`;
         chatWindow.innerHTML += `<div class="chat-bubble"><strong>${mode}:</strong> Thanks. Please describe your issue and case ID if you have one.</div>`;
     }
+});
+
+document.addEventListener('submit', (event) => {
+    const chatForm = event.target.closest('[data-chat-form]');
+    if (!chatForm || !modalBody) return;
+    event.preventDefault();
+    const textarea = chatForm.querySelector('textarea[name="message"]');
+    const thread = modalBody.querySelector('[data-chat-thread]');
+    const humanNotice = modalBody.querySelector('[data-human-chat-notice]');
+    if (!textarea || !thread) return;
+
+    const text = textarea.value.trim();
+    if (!text) return;
+
+    thread.innerHTML += `
+        <div class="chat-message-row self">
+            <div class="chat-message-bubble self">${text}</div>
+        </div>
+    `;
+
+    const mode = chatForm.dataset.chatForm;
+    if (mode === 'human' && humanNotice) {
+        humanNotice.textContent = 'A service representative has join the chat.';
+    }
+    const reply = mode === 'ai'
+        ? 'I can help explain the next steps, suggest evidence to gather, or guide you to the right page.'
+        : "Hello, I'm the customer service representative Marry. How can I assist you?";
+
+    thread.innerHTML += `
+        <div class="chat-message-row">
+            <span class="chat-avatar">${mode === 'ai' ? 'AI' : 'HS'}</span>
+            <div class="chat-message-bubble">${reply}</div>
+        </div>
+    `;
+
+    textarea.value = '';
 });
 
 document.addEventListener('submit', (event) => {

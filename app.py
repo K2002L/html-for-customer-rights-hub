@@ -387,9 +387,9 @@ INFO_PAGES: dict[str, dict[str, Any]] = {
 }
 
 CONSULTATION_SLOTS = [
-    ('Mon', '10:00 AM', 'Legal intake clinic'),
-    ('Wed', '2:00 PM', 'Consumer dispute consultation'),
-    ('Fri', '11:00 AM', 'Fraud recovery support'),
+    ('Mon-Fri', '9:00 AM - 5:00 PM', 'Legal intake clinic'),
+    ('Mon-Fri', '9:00 AM - 5:00 PM', 'Consumer dispute consultation'),
+    ('24/7', 'Available anytime', 'Fraud recovery support'),
 ]
 
 DOWNLOADS = [
