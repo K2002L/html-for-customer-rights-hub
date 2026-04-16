@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="page-header wide-left compact-max">
+    <h1>{{ category.title }}</h1>
+    <p>{{ category.short }}</p>
+</section>
+
+<section class="section-card compact-max">
+    <h2>Common Shopping Issues</h2>
+    <div class="card-grid two-col tight-grid">
+        {% for item in category.common_issues %}
+            <article class="mini-panel detail-panel">
+                <h3>{{ item.title }}</h3>
+                <p>{{ item.text }}</p>
+                <a class="text-link" href="{{ url_for('info_page', slug=item.slug) }}">View issue details</a>
+            </article>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="section-card blue-tint compact-max">
+    <h2>Your Consumer Rights</h2>
+    <div class="stacked-cards">
+        {% for item in category.rights_cards %}
+            <article class="list-card">
+                <h3>{{ item.title }}</h3>
+                <p>{{ item.text }}</p>
+                <a class="text-link" href="{{ url_for('info_page', slug=item.slug) }}">Read more</a>
+            </article>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="section-card compact-max">
+    <h2>Evidence You'll Need</h2>
+    <div class="card-grid two-col">
+        <div>
+            <h3>Required Documents</h3>
+            <ul class="clean-list">{% for item in category.evidence_required %}<li>{{ item }}</li>{% endfor %}</ul>
+        </div>
+        <div>
+            <h3>Helpful Additional Evidence</h3>
+            <ul class="clean-list">{% for item in category.evidence_helpful %}<li>{{ item }}</li>{% endfor %}</ul>
+        </div>
+    </div>
+</section>
+
+<section class="section-card compact-max">
+    <h2>Legal Resources &amp; Regulations</h2>
+    <a href="{{ url_for('info_page', slug=category.resource_page) }}" class="resource-link">
+        <span>
+            <strong>Open related legal resources</strong>
+            <small>View official guidance and links on a dedicated resource page.</small>
+        </span>
+        <span>Open</span>
+    </a>
+</section>
+
+<section class="button-bar compact-max">
+    <a href="{{ url_for('complaint_start', category='shopping') }}" class="primary-btn">{{ category.apply_label }}</a>
+    <a href="{{ url_for('support') }}" class="outline-btn">{{ category.secondary_label }}</a>
+</section>
+{% endblock %}

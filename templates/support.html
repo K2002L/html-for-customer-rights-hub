@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="page-header wide-left compact-max">
+    <h1>Human Support</h1>
+    <p>We are here to help you navigate your consumer rights protection journey with live chat, phone support, and legal guidance.</p>
+</section>
+
+<section class="section-card danger-outline emergency-banner compact-max">
+    <div class="emergency-title-row">
+        <div>
+            <h2>Emergency Assistance</h2>
+            <p>If you are experiencing active fraud or identity theft, contact us immediately at our emergency hotline.</p>
+        </div>
+        <button type="button" class="primary-btn small danger-btn" data-modal="call-support">1-800-555-0911</button>
+    </div>
+    <small>Available 24/7 for emergencies</small>
+</section>
+
+<section class="card-grid three-col support-card-grid compact-max">
+    {% for title, description, button, note in support_options %}
+        <article class="simple-card support-option-card">
+            <span class="support-icon">0{{ loop.index }}</span>
+            <h2>{{ title }}</h2>
+            <p>{{ description }}</p>
+            <button
+                type="button"
+                class="primary-btn small {% if loop.index != 1 %}outline-like{% endif %}"
+                data-modal="{% if loop.index == 1 %}start-chat{% elif loop.index == 2 %}call-support{% else %}schedule-consultation{% endif %}"
+            >
+                {{ button }}
+            </button>
+            <small class="muted">{{ note }}</small>
+        </article>
+    {% endfor %}
+</section>
+
+<section class="section-card compact-max">
+    <h2>Send Us a Message</h2>
+    <form class="stack-form two-col-form" method="post">
+        <label>Name
+            <input type="text" name="name" placeholder="Your name">
+        </label>
+        <label>Email
+            <input type="email" name="email" placeholder="your.email@example.com">
+        </label>
+        <label class="full-span">Case ID (if applicable)
+            <input type="text" name="case_id" placeholder="CR-2026-XXXX">
+        </label>
+        <label class="full-span">How can we help?
+            <textarea name="message" rows="5" placeholder="Describe your question or issue..."></textarea>
+        </label>
+        <div class="form-actions full-span">
+            <button type="submit" class="primary-btn small">Send Message</button>
+        </div>
+    </form>
+</section>
+
+<section class="section-card compact-max">
+    <h2>Common Questions</h2>
+    <div class="faq-grid two-col-faq">
+        {% for question, answer in support_faqs %}
+        <details class="faq-item" {% if loop.first %}open{% endif %}>
+            <summary>{{ question }}</summary>
+            <p>{{ answer }}</p>
+        </details>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="card-grid two-col compact-max">
+    <article class="section-card no-margin">
+        <h2>Support Hours</h2>
+        <div class="hours-list">
+            <div><span>Monday - Friday</span><strong>9:00 AM - 6:00 PM</strong></div>
+            <div><span>Saturday</span><strong>10:00 AM - 6:00 PM</strong></div>
+            <div><span>Sunday</span><strong>12:00 PM - 5:00 PM</strong></div>
+        </div>
+    </article>
+    <article class="section-card no-margin">
+        <h2>Consultation Schedule</h2>
+        <div class="hours-list contact-list">
+            {% for day, time_text, title in consultation_slots %}
+                <div><span>{{ day }} {{ time_text }}</span><strong>{{ title }}</strong></div>
+            {% endfor %}
+        </div>
+    </article>
+</section>
+{% endblock %}

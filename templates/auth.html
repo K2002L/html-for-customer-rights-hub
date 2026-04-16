@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="auth-shell">
+    <div class="auth-card">
+        <div class="auth-tabs">
+            <a href="{{ url_for('auth', mode='login') }}" class="tab-link {% if mode != 'register' %}active{% endif %}">Log In</a>
+            <a href="{{ url_for('auth', mode='register') }}" class="tab-link {% if mode == 'register' %}active{% endif %}">Create Account</a>
+        </div>
+        <h1>{% if mode == 'register' %}Create Account{% else %}Welcome Back{% endif %}</h1>
+        <p class="muted">Use the prototype account form below to continue.</p>
+        <form method="post" class="auth-form">
+            <input type="hidden" name="mode" value="{{ mode }}">
+            {% if mode == 'register' %}
+                <label>Full Name<input type="text" name="full_name" placeholder="Enter your full name"></label>
+            {% endif %}
+            <label>Email<input type="email" name="email" placeholder="Enter your email"></label>
+            <label>Password<input type="password" name="password" placeholder="Enter your password"></label>
+            <button type="submit" class="primary-btn full-width">{% if mode == 'register' %}Create Account{% else %}Log In{% endif %}</button>
+        </form>
+        <p class="muted small-text">
+            {% if mode == 'register' %}
+                Already have an account? <a href="{{ url_for('auth', mode='login') }}">Login</a>
+            {% else %}
+                Need an account? <a href="{{ url_for('auth', mode='register') }}">Create one</a>
+            {% endif %}
+        </p>
+    </div>
+</section>
+{% endblock %}

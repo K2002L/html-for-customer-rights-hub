@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="page-header wide-left compact-max">
+    <h1>{{ story.title }}</h1>
+    <p>{{ story.summary }}</p>
+</section>
+
+<section class="section-card compact-max">
+    <div class="story-tags detail-story-tags">
+        <span class="status-pill {{ story.tag|lower if story.tag|lower != 'subscription' else 'subscriptions' }}">{{ story.tag }}</span>
+        <span class="story-badge">{{ story.badge }}</span>
+    </div>
+    <div class="story-metrics">
+        <div><small>Amount Recovered</small><strong>{{ story.amount }}</strong></div>
+        <div><small>Resolution Type</small><strong>{{ story.type }}</strong></div>
+        <div><small>Time to Resolve</small><strong>{{ story.days }}</strong></div>
+    </div>
+    <div class="story-detail-copy">
+        {% for paragraph in story.story %}
+            <p>{{ paragraph }}</p>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="section-card compact-max">
+    <h2>Community Comments</h2>
+    <div class="comment-list">
+        {% for author, body in story.comment_threads %}
+            <article class="comment-card">
+                <div class="comment-head">
+                    <span class="comment-avatar {{ loop.cycle('avatar-tone-1', 'avatar-tone-2', 'avatar-tone-3', 'avatar-tone-4', 'avatar-tone-5', 'avatar-tone-6') }}">{{ author[0] }}</span>
+                    <strong>{{ author }}</strong>
+                </div>
+                <p>{{ body }}</p>
+            </article>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="button-bar compact-max">
+    <a href="{{ url_for('community') }}" class="outline-btn">Back to Community</a>
+    <button type="button" class="primary-btn" data-modal="share-story">Share Your Story</button>
+</section>
+{% endblock %}

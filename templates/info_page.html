@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="page-header wide-left compact-max">
+    <h1>{{ heading }}</h1>
+    <p>{{ description }}</p>
+</section>
+
+{% if examples %}
+<section class="section-card compact-max">
+    <h2>Common Scam Scenarios</h2>
+    <div class="stacked-cards">
+        {% for title, text in examples %}
+            <article class="list-card">
+                <h3>{{ title }}</h3>
+                <p>{{ text }}</p>
+            </article>
+        {% endfor %}
+    </div>
+</section>
+{% endif %}
+
+<section class="section-card compact-max">
+    <h2>What you can do here</h2>
+    <ul class="clean-list">
+        {% for item in bullets %}
+            <li>{{ item }}</li>
+        {% endfor %}
+    </ul>
+</section>
+
+{% if links %}
+<section class="section-card compact-max">
+    <h2>Related Resources</h2>
+    <div class="stacked-links">
+        {% for title, href in links %}
+            <a href="{{ href }}" class="resource-link" target="_blank" rel="noreferrer">
+                <span>
+                    <strong>{{ title }}</strong>
+                    <small>{{ href }}</small>
+                </span>
+                <span>Open</span>
+            </a>
+        {% endfor %}
+    </div>
+</section>
+{% endif %}
+
+<section class="button-bar compact-max">
+    <a href="{{ url_for('complaint_start', category='shopping') }}" class="primary-btn">Continue</a>
+    <a href="{{ url_for('support') }}" class="outline-btn">Need Help?</a>
+</section>
+{% endblock %}

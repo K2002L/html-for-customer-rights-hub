@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="page-header wide-left compact-max">
+    <h1>Community Success Cases</h1>
+    <p>Real stories from consumers who successfully resolved their rights protection cases.</p>
+</section>
+
+<section class="stats-row four-up compact-max">
+    <div class="stat-box"><strong>248</strong><span>Total Success Cases</span></div>
+    <div class="stat-box"><strong>$487K</strong><span>Total Recovered</span></div>
+    <div class="stat-box"><strong>94%</strong><span>Success Rate</span></div>
+    <div class="stat-box"><strong>16</strong><span>Avg Days to Resolve</span></div>
+</section>
+
+<section class="community-layout compact-max">
+    <aside class="community-filter section-card no-margin">
+        <h2>Filter by Category</h2>
+        <a class="filter-link {% if selected_filter == 'all' %}active{% endif %}" href="{{ url_for('community', cat='all') }}">All Cases <span>{{ counts.all }}</span></a>
+        <a class="filter-link {% if selected_filter == 'shopping' %}active{% endif %}" href="{{ url_for('community', cat='shopping') }}">Shopping <span>{{ counts.shopping }}</span></a>
+        <a class="filter-link {% if selected_filter == 'fraud' %}active{% endif %}" href="{{ url_for('community', cat='fraud') }}">Fraud <span>{{ counts.fraud }}</span></a>
+        <a class="filter-link {% if selected_filter == 'subscription' %}active{% endif %}" href="{{ url_for('community', cat='subscription') }}">Subscriptions <span>{{ counts.subscription }}</span></a>
+    </aside>
+
+    <div class="stacked-cases community-cases">
+        {% for case in success_cases %}
+        <article class="case-story detailed-story">
+            <div class="story-head">
+                <div class="story-tags">
+                    <span class="status-pill {{ case.tag|lower if case.tag|lower != 'subscription' else 'subscriptions' }}">{{ case.tag }}</span>
+                    <span class="story-badge">{{ case.badge }}</span>
+                </div>
+            </div>
+            <h2>{{ case.title }}</h2>
+            <p>{{ case.summary }}</p>
+            <div class="story-metrics">
+                <div><small>Amount Recovered</small><strong>{{ case.amount }}</strong></div>
+                <div><small>Resolution Type</small><strong>{{ case.type }}</strong></div>
+                <div><small>Time to Resolve</small><strong>{{ case.days }}</strong></div>
+            </div>
+            <div class="story-footer-row">
+                <div class="story-reactions">
+                    <span>Likes {{ case.likes }}</span>
+                    <span>Comments {{ case.comments }}</span>
+                    <span>{{ case.helpful }} found helpful</span>
+                </div>
+                <a href="{{ url_for('story_detail', story_id=case.id) }}" class="text-link">Read Full Story</a>
+            </div>
+        </article>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="highlight-panel centered-panel compact-max">
+    <h2>Have a Success Story to Share?</h2>
+    <p>Help other consumers by sharing your experience. Your story could guide others facing similar challenges.</p>
+    <div class="button-bar compact-max no-top-gap">
+        <button type="button" class="primary-btn" data-modal="share-story">Share Your Story</button>
+        <a href="{{ url_for('complaint_start', category='shopping') }}" class="outline-btn">Start Your Case</a>
+    </div>
+</section>
+{% endblock %}

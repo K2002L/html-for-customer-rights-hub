@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="page-header wide-left compact-max">
+    <h1>Personal Center</h1>
+    <p>Manage your account, cases, and downloads in one place.</p>
+</section>
+
+<section class="personal-layout compact-max">
+    <aside class="personal-sidebar">
+        <article class="section-card no-margin profile-card-block">
+            <div class="profile-avatar">{{ user.name[0] }}</div>
+            <div>
+                <h2>{{ user.name }}</h2>
+                <small class="muted">{% if user.verified %}Verified Account{% else %}Prototype Account{% endif %}</small>
+            </div>
+            <div class="profile-contact-list">
+                <span>{{ user.email }}</span>
+                <span>{{ user.phone }}</span>
+            </div>
+            <a href="{{ url_for('auth') }}" class="outline-btn small-link-btn">Edit Profile</a>
+        </article>
+
+        <article class="section-card no-margin">
+            <h2>Account Statistics</h2>
+            <div class="mini-stats-list">
+                <div><span>Total Cases</span><strong>{{ stats.total }}</strong></div>
+                <div><span>Resolved</span><strong>{{ stats.resolved }}</strong></div>
+                <div><span>Success Rate</span><strong>{{ stats.success_rate }}</strong></div>
+            </div>
+        </article>
+    </aside>
+
+    <div class="personal-main">
+        <article class="section-card no-margin">
+            <div class="section-head-row">
+                <h2>My Cases</h2>
+                <a href="{{ url_for('progress') }}" class="text-link">View All Progress</a>
+            </div>
+            <div class="my-cases-list">
+                {% for case in cases %}
+                <a href="{{ url_for('case_detail', case_id=case.case_id) }}" class="mini-case-row">
+                    <div>
+                        <strong>{{ case.case_id }}</strong>
+                        <small>{{ case.label }} - {{ case.submitted }}</small>
+                    </div>
+                    <div class="case-price-status">
+                        <strong>{{ case.amount }}</strong>
+                        <span class="status-pill {{ case.category_class }}">{{ case.status }}</span>
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+        </article>
+
+        <article class="section-card no-margin">
+            <h2>Download Center</h2>
+            <div class="download-grid">
+                {% for title, meta in downloads %}
+                <button type="button" class="download-item" data-download-title="{{ title }}" data-download-meta="{{ meta }}">
+                    <div>
+                        <strong>{{ title }}</strong>
+                        <small>{{ meta }}</small>
+                    </div>
+                    <span>Download</span>
+                </button>
+                {% endfor %}
+            </div>
+        </article>
+
+        <article class="section-card no-margin">
+            <h2>Recent Activity</h2>
+            <div class="activity-list">
+                {% for title, time_text in activities %}
+                <div class="activity-item">
+                    <span class="timeline-dot active"></span>
+                    <div><strong>{{ title }}</strong><small>{{ time_text }}</small></div>
+                </div>
+                {% endfor %}
+            </div>
+        </article>
+
+        <article class="section-card no-margin">
+            <h2>Browsing History</h2>
+            <div class="history-list">
+                {% for item in history %}
+                <div>{{ item }}</div>
+                {% endfor %}
+            </div>
+        </article>
+    </div>
+</section>
+{% endblock %}

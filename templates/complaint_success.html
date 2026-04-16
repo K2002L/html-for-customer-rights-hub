@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="highlight-panel centered-panel success-panel">
+    <h1>Complaint Submitted Successfully</h1>
+    <p>Your rights protection request has been created. {% if last_case_id %}Your case ID is <strong>{{ last_case_id }}</strong>.{% endif %}</p>
+    <div class="button-bar centered">
+        <a href="{{ url_for('progress') }}" class="primary-btn">Go to Case Dashboard</a>
+        <a href="{{ url_for('home') }}" class="outline-btn">Return Home</a>
+    </div>
+</section>
+{% endblock %}

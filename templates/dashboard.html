@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="page-header wide-left compact-max">
+    <h1>Case Progress Dashboard</h1>
+    <p>Track the status of your consumer rights protection cases.</p>
+</section>
+
+<section class="stats-row three-up alt-gap compact-max">
+    <div class="stat-box"><small>Pending Review</small><strong>{{ summary.pending }}</strong><span>Awaiting initial review</span></div>
+    <div class="stat-box"><small>In Progress</small><strong>{{ summary.in_progress }}</strong><span>Active case resolution</span></div>
+    <div class="stat-box"><small>Resolved</small><strong>{{ summary.resolved }}</strong><span>Successfully completed</span></div>
+</section>
+
+<section class="section-card compact-max">
+    <h2>Case Overview</h2>
+    <div class="overview-bars" aria-label="Case overview chart">
+        <div class="overview-bar">
+            <div class="overview-fill pending" style="height: 32%"></div>
+            <strong>{{ summary.pending }}</strong>
+            <small>Pending</small>
+        </div>
+        <div class="overview-bar">
+            <div class="overview-fill active" style="height: 52%"></div>
+            <strong>{{ summary.in_progress }}</strong>
+            <small>In Progress</small>
+        </div>
+        <div class="overview-bar">
+            <div class="overview-fill resolved" style="height: 88%"></div>
+            <strong>{{ summary.resolved }}</strong>
+            <small>Resolved</small>
+        </div>
+    </div>
+</section>
+
+<section class="section-card compact-max">
+    <h2>Your Active Cases</h2>
+    <div class="stacked-cases">
+        {% for case in cases[:2] %}
+            <article class="dashboard-case">
+                <div class="case-topline">
+                    <div>
+                        <strong>{{ case.case_id }}</strong>
+                        <span class="status-pill {{ case.category_class }}">{{ case.status }}</span>
+                    </div>
+                    <a href="{{ url_for('case_detail', case_id=case.case_id) }}" class="outline-btn small-link-btn">View Details</a>
+                </div>
+                <p class="muted small-text">{{ case.label }} dispute</p>
+                <div class="progress-line"><span style="width: {{ case.progress }}%"></span></div>
+                <div class="progress-meta"><small>Progress: Step {{ 3 if case.progress >= 60 else 1 }} of 5</small><small>{{ case.progress }}% Complete</small></div>
+                <div class="timeline-list">
+                    {% for label, time_text in case.timeline %}
+                        <div class="timeline-item"><span class="timeline-dot {% if loop.index <= 2 %}active{% endif %}"></span><div><strong>{{ label }}</strong><small>{{ time_text }}</small></div></div>
+                    {% endfor %}
+                </div>
+                <div class="case-actions split-meta">
+                    <small>Submitted Date<br><strong>{{ case.submitted }}</strong></small>
+                    <small>Estimated Completion<br><strong>{{ case.estimated }}</strong></small>
+                </div>
+            </article>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

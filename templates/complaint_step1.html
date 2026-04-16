@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="page-header form-header">
+    <a href="{{ url_for(category.route) }}" class="back-link">← Back to Category</a>
+    <h1>Rights Protection Form</h1>
+    <p>Complete this form to start your {{ category.title|lower }} protection case.</p>
+</section>
+
+<section class="form-progress">
+    <div class="step current"><span>1</span><strong>Basic Information</strong><small>Your contact details</small></div>
+    <div class="step"><span>2</span><strong>Issue Description</strong><small>Describe the problem</small></div>
+    <div class="step"><span>3</span><strong>Evidence Upload</strong><small>Supporting documents</small></div>
+</section>
+
+<section class="form-card">
+    <form method="post" class="stack-form">
+        <label>Name *<input type="text" name="name" value="{{ form_data.get('name', '') }}" placeholder="Enter your full name"></label>
+        <label>Phone Number *<input type="text" name="phone" value="{{ form_data.get('phone', '') }}" placeholder="0400 000 000"></label>
+        <label>Address *<input type="text" name="address" value="{{ form_data.get('address', '') }}" placeholder="Enter your street address"></label>
+        <div class="info-banner">Your contact information will be kept confidential and only used for case communication.</div>
+        <div class="form-actions right"><button type="submit" class="primary-btn">Next Step</button></div>
+    </form>
+</section>
+<p class="support-note">Need assistance? <a href="{{ url_for('support') }}">Contact Human Support</a></p>
+{% endblock %}

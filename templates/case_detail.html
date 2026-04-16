@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="page-header wide-left">
+    <a href="{{ url_for('progress') }}" class="back-link">← Back to Dashboard</a>
+    <h1>Case {{ case.case_id }}</h1>
+    <p>{{ case.category }} complaint currently marked as <strong>{{ case.status }}</strong>.</p>
+</section>
+
+<section class="card-grid two-col">
+    <article class="simple-card tall-card">
+        <h2>Case Summary</h2>
+        <p><strong>Submitted:</strong> {{ case.submitted }}</p>
+        <p><strong>Estimated completion:</strong> {{ case.estimated }}</p>
+        <p><strong>Progress:</strong> {{ case.progress }}%</p>
+        {% if case.issue_name %}<p><strong>Issue:</strong> {{ case.issue_name }}</p>{% endif %}
+        {% if case.evidence_name %}<p><strong>Evidence:</strong> {{ case.evidence_name }}</p>{% endif %}
+    </article>
+    <article class="simple-card tall-card">
+        <h2>Timeline</h2>
+        <div class="timeline-list">
+            {% for label, time_text in case.timeline %}
+                <div class="timeline-item"><span class="timeline-dot"></span><div><strong>{{ label }}</strong><small>{{ time_text }}</small></div></div>
+            {% endfor %}
+        </div>
+    </article>
+</section>
+
+{% if case.issue_detail %}
+<section class="section-card">
+    <h2>Issue Description</h2>
+    <p>{{ case.issue_detail }}</p>
+</section>
+{% endif %}
+{% endblock %}

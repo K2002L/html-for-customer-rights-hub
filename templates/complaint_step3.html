@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="page-header form-header">
+    <a href="{{ url_for('complaint_step2') }}" class="back-link">← Back to Step 2</a>
+    <h1>Rights Protection Form</h1>
+    <p>Add supporting documents before submitting your complaint.</p>
+</section>
+
+<section class="form-progress">
+    <div class="step complete"><span>1</span><strong>Basic Information</strong><small>Completed</small></div>
+    <div class="step complete"><span>2</span><strong>Issue Description</strong><small>Completed</small></div>
+    <div class="step current"><span>3</span><strong>Evidence Upload</strong><small>Supporting documents</small></div>
+</section>
+
+<section class="form-card">
+    <form method="post" enctype="multipart/form-data" class="stack-form">
+        <label>Upload file (prototype)<input type="file" name="evidence_file"></label>
+        <label>Or type evidence name *<input type="text" name="evidence_name" value="{{ form_data.get('evidence_name', '') }}" placeholder="Receipt.pdf or screenshot name"></label>
+        <div class="info-banner">Accepted examples: receipts, screenshots, seller communication, bank statements, shipping labels.</div>
+        <div class="form-actions space-between"><a href="{{ url_for('complaint_step2') }}" class="outline-btn">Back</a><button type="submit" class="primary-btn">Submit Complaint</button></div>
+    </form>
+</section>
+{% endblock %}

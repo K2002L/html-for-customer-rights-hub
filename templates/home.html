@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="hero narrow">
+    <p class="eyebrow">Consumer Rights Hub</p>
+    <h1>Protect Your Consumer Rights</h1>
+    <p class="hero-text">
+        Get help resolving disputes, reporting fraud, and managing subscriptions with a clearer, easier prototype.
+    </p>
+</section>
+
+<section class="card-grid three-col">
+    <article class="feature-card">
+        <div class="feature-icon">01</div>
+        <h2>Online Shopping Disputes</h2>
+        <p>Resolve counterfeit goods, refund denials, order mismatches, and defective product disputes.</p>
+        <div class="feature-actions">
+            <a class="text-link" href="{{ url_for('shopping') }}">Learn more</a>
+            <a class="primary-btn small" href="{{ url_for('complaint_start', category='shopping') }}">Start Resolution</a>
+        </div>
+    </article>
+    <article class="feature-card warn-card">
+        <div class="feature-icon">02</div>
+        <h2>Fraud &amp; Information Leakage</h2>
+        <p>Take action on phishing, identity theft, unauthorised charges, and data breach incidents.</p>
+        <div class="feature-actions">
+            <a class="text-link" href="{{ url_for('fraud') }}">Learn more</a>
+            <a class="primary-btn small" href="{{ url_for('complaint_start', category='fraud') }}">Report and Protect</a>
+        </div>
+    </article>
+    <article class="feature-card">
+        <div class="feature-icon">03</div>
+        <h2>Subscription &amp; Auto-Renewal</h2>
+        <p>Handle hidden fees, failed cancellations, unwanted renewals, and free-trial traps.</p>
+        <div class="feature-actions">
+            <a class="text-link" href="{{ url_for('subscriptions') }}">Learn more</a>
+            <a class="primary-btn small" href="{{ url_for('complaint_start', category='subscriptions') }}">Manage Subscriptions</a>
+        </div>
+    </article>
+</section>
+
+<section class="stats-row" aria-label="Platform statistics">
+    <div class="stat-box"><strong>12,450+</strong><span>Cases Resolved</span></div>
+    <div class="stat-box"><strong>94%</strong><span>Success Rate</span></div>
+    <div class="stat-box"><strong>24/7</strong><span>Support Available</span></div>
+</section>
+
+<section class="card-grid two-col compact-grid">
+    <a class="mini-card" href="{{ url_for('knowledge') }}">
+        <span class="mini-icon">📘</span>
+        <div><h3>Rights Knowledge</h3><p>Learn about common rights issues and prevention strategies.</p></div>
+    </a>
+    <a class="mini-card" href="{{ url_for('progress') }}">
+        <span class="mini-icon">📈</span>
+        <div><h3>Track Progress</h3><p>Check the status of your submitted case and next steps.</p></div>
+    </a>
+    <a class="mini-card" href="{{ url_for('complaint_start', category='shopping') }}">
+        <span class="mini-icon">📝</span>
+        <div><h3>Submit Complaints</h3><p>File your consumer rights claim and upload supporting evidence.</p></div>
+    </a>
+    <a class="mini-card" href="{{ url_for('community') }}">
+        <span class="mini-icon">👥</span>
+        <div><h3>Community</h3><p>Browse real user stories and shared success cases.</p></div>
+    </a>
+</section>
+{% endblock %}

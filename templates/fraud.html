@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="back-link-wrap">
+    <a href="{{ url_for('home') }}" class="back-link">← Back to Home</a>
+</div>
+
+<section class="page-header">
+    <h1>Fraud &amp; Information Leakage</h1>
+    <p>Immediate assistance for online fraud, identity theft, unauthorized charges, and data breaches.</p>
+</section>
+
+<section class="alert-panel">
+    <div class="alert-title">⚠ Emergency Response Steps</div>
+    <ol class="step-list">
+        <li>
+            <strong>Secure Your Accounts Immediately</strong>
+            <span>Change passwords and enable multi-factor authentication on all financial accounts.</span>
+        </li>
+        <li>
+            <strong>Contact Your Bank or Card Issuer</strong>
+            <span>Report unauthorized charges immediately and request a freeze or replacement if needed.</span>
+        </li>
+        <li>
+            <strong>Document Everything</strong>
+            <span>Take screenshots of suspicious messages, transactions, and communication. Save all evidence.</span>
+        </li>
+        <li>
+            <strong>Report to Authorities</strong>
+            <span>File reports with local law enforcement and the FTC. Keep case numbers for reference.</span>
+        </li>
+    </ol>
+</section>
+
+<section class="info-section">
+    <h2>Common Fraud Scenarios</h2>
+    <div class="card-grid two-col">
+        <article class="simple-card">
+            <h3>Phishing Scams</h3>
+            <p>Fake emails or texts pretending to be from legitimate companies requesting personal information.</p>
+        </article>
+        <article class="simple-card">
+            <h3>Identity Theft</h3>
+            <p>Unauthorized use of your personal information to open accounts or make purchases.</p>
+        </article>
+        <article class="simple-card">
+            <h3>Payment Fraud</h3>
+            <p>Unauthorized charges on credit cards, digital wallets, or bank accounts.</p>
+        </article>
+        <article class="simple-card">
+            <h3>Data Breaches</h3>
+            <p>Personal information exposed through company security failures or hacking incidents.</p>
+        </article>
+    </div>
+</section>
+
+<section class="tips-panel">
+    <div>
+        <h2>Fraud Prevention Tips</h2>
+        <h3>Protect Your Information</h3>
+        <ul>
+            <li>Never share passwords or PINs with anyone.</li>
+            <li>Use strong, unique passwords for each account.</li>
+            <li>Enable two-factor authentication everywhere possible.</li>
+            <li>Monitor bank statements and credit reports regularly.</li>
+        </ul>
+    </div>
+    <div>
+        <h3>Recognize Warning Signs</h3>
+        <ul>
+            <li>Urgent requests for personal or financial information.</li>
+            <li>Suspicious links or attachments in emails.</li>
+            <li>Offers that seem too good to be true.</li>
+            <li>Pressure to act immediately without verification.</li>
+        </ul>
+    </div>
+</section>
+
+<section class="info-section">
+    <h2>Official Reporting Channels</h2>
+    <div class="channel-list">
+        <a href="https://reportfraud.ftc.gov/" target="_blank" rel="noopener noreferrer" class="channel-item">
+            <span>Federal Trade Commission (FTC)</span>
+            <small>Report fraud and identity theft</small>
+            <span>→</span>
+        </a>
+        <a href="https://www.ic3.gov/" target="_blank" rel="noopener noreferrer" class="channel-item">
+            <span>Internet Crime Complaint Center (IC3)</span>
+            <small>File online fraud reporting</small>
+            <span>→</span>
+        </a>
+        <a href="{{ url_for('support') }}" class="channel-item">
+            <span>Local Law Enforcement</span>
+            <small>Get guidance on filing a police report</small>
+            <span>→</span>
+        </a>
+    </div>
+</section>
+
+<section class="cta-row">
+    <a href="{{ url_for('complaints') }}" class="primary-btn">Start Rights Protection Process</a>
+    <a href="{{ url_for('support') }}" class="ghost-btn">Emergency Support</a>
+</section>
+{% endblock %}

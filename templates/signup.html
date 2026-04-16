@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="auth-wrap">
+    <div class="auth-card">
+        <div class="auth-top-row">
+            <h1>Create Account</h1>
+            <a href="{{ url_for('home') }}" class="close-link" aria-label="Close sign up page">✕</a>
+        </div>
+
+        <div class="social-row">
+            <button type="button" class="secondary-btn full-btn">Sign up with Google</button>
+            <button type="button" class="secondary-btn full-btn">Sign up with Facebook</button>
+        </div>
+
+        <p class="divider"><span>OR</span></p>
+
+        <form method="post" class="auth-form">
+            <label for="full_name">Full Name</label>
+            <input id="full_name" name="full_name" type="text" placeholder="Enter your full name" required>
+
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" placeholder="Enter your email" required>
+
+            <label for="password">Password</label>
+            <input id="password" name="password" type="password" placeholder="Create a password" required>
+
+            <button type="submit" class="primary-btn full-btn">Create Account</button>
+        </form>
+
+        <p class="auth-footer">Already have an account? <a href="{{ url_for('signup') }}">Login</a></p>
+    </div>
+</section>
+{% endblock %}

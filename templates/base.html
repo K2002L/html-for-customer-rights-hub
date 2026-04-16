@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ page_title }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="layout-shell">
+    <button type="button" class="accessibility-toggle" data-action="toggle-accessibility-panel" aria-expanded="true">Accessibility</button>
+
+    <aside class="accessibility-panel" aria-label="Accessibility controls">
+        <div class="accessibility-head">
+            <h2>Accessibility</h2>
+            <button type="button" class="icon-btn" data-action="toggle-accessibility-panel" aria-label="Collapse accessibility panel">x</button>
+        </div>
+        <div class="control-group">
+            <span class="control-label">Text Size</span>
+            <div class="button-row">
+                <button type="button" class="small-btn" data-action="decrease-font" aria-label="Decrease text size">A-</button>
+                <button type="button" class="small-btn" data-action="increase-font" aria-label="Increase text size">A+</button>
+            </div>
+        </div>
+        <div class="control-group">
+            <span class="control-label">Page Zoom</span>
+            <div class="button-row">
+                <button type="button" class="small-btn" data-action="decrease-zoom" aria-label="Zoom out">-</button>
+                <button type="button" class="small-btn" data-action="increase-zoom" aria-label="Zoom in">+</button>
+            </div>
+        </div>
+        <div class="control-group stacked">
+            <button type="button" class="secondary-btn" data-action="toggle-contrast">High Contrast</button>
+            <button type="button" class="secondary-btn" data-action="toggle-easy">Easy Read</button>
+            <button type="button" class="secondary-btn" data-action="reset-accessibility">Reset</button>
+        </div>
+        <p class="assist-note">Available on every page to support elderly users and readers with mild visual difficulties.</p>
+    </aside>
+
+    <div class="site-shell">
+        <header class="topbar">
+            <a href="{{ url_for('home') }}" class="brand-link">
+                <span class="brand-icon">
+                    <img src="{{ url_for('static', filename='logo-scales.svg') }}" alt="Consumer Rights Platform logo">
+                </span>
+                <span>
+                    <strong>Consumer Rights Platform</strong>
+                    <small>Protection and Support</small>
+                </span>
+            </a>
+            <nav class="main-nav" aria-label="Primary navigation">
+                <a href="{{ url_for('progress') }}">Progress Inquiry</a>
+                <a href="{{ url_for('support') }}">Human Support</a>
+                <a href="{{ url_for('personal_center') }}">Personal Center</a>
+                <a href="{{ url_for('community') }}">Community</a>
+                <a href="{{ url_for('about') }}">About Us</a>
+                {% if current_user %}
+                    <a href="{{ url_for('logout') }}" class="primary-nav-btn">Log out</a>
+                {% else %}
+                    <a href="{{ url_for('auth') }}" class="primary-nav-btn">Sign In</a>
+                {% endif %}
+            </nav>
+        </header>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <section class="flash-wrap" aria-live="polite">
+                    {% for category, message in messages %}
+                        <div class="flash-message {{ category }}">{{ message }}</div>
+                    {% endfor %}
+                </section>
+            {% endif %}
+        {% endwith %}
+
+        <main class="page-content">
+            {% block content %}{% endblock %}
+        </main>
+
+        <footer class="site-footer">
+            <div class="footer-grid">
+                <div>
+                    <h3>Quick Links</h3>
+                    <a href="{{ url_for('knowledge') }}">Rights Knowledge</a>
+                    <a href="{{ url_for('community') }}">Success Cases</a>
+                    <a href="{{ url_for('progress') }}">Track Progress</a>
+                </div>
+                <div>
+                    <h3>Help</h3>
+                    <a href="{{ url_for('support') }}">Contact Support</a>
+                    <a href="{{ url_for('complaint_start', category='shopping') }}">Start a Case</a>
+                </div>
+                <div>
+                    <h3>About</h3>
+                    <a href="{{ url_for('about') }}">About Us</a>
+                    <a href="{{ url_for('about') }}">Privacy Policy</a>
+                </div>
+            </div>
+            <p class="copyright">Copyright 2026 Consumer Rights Platform. All rights reserved.</p>
+        </footer>
+    </div>
+</div>
+
+<div class="app-modal" id="appModal" hidden>
+    <div class="app-modal-backdrop" data-modal-close></div>
+    <div class="app-modal-card" role="dialog" aria-modal="true" aria-labelledby="appModalTitle">
+        <div class="app-modal-head">
+            <h2 id="appModalTitle">Dialog</h2>
+            <button type="button" class="icon-btn" data-modal-close aria-label="Close dialog">x</button>
+        </div>
+        <div class="app-modal-body" id="appModalBody"></div>
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
