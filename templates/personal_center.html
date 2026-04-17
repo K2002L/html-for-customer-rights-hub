@@ -74,7 +74,8 @@
                 {% for title, time_text in activities %}
                 <div class="activity-item">
                     <span class="timeline-dot active"></span>
-                    <div><strong>{{ title }}</strong><small>{{ time_text }}</small></div>
+                    <div class="activity-content"><strong>{{ title }}</strong></div>
+                    <small class="activity-time">{{ time_text }}</small>
                 </div>
                 {% endfor %}
             </div>

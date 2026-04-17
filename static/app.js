@@ -224,7 +224,7 @@ document.addEventListener('click', (event) => {
                     <div class="schedule-list">
                         <div><strong>Mon-Fri 9:00 AM - 5:00 PM</strong><span>Legal intake clinic</span></div>
                         <div><strong>Mon-Fri 9:00 AM - 5:00 PM</strong><span>Consumer dispute consultation</span></div>
-                        <div><strong>24/7</strong><span>Fraud recovery support</span></div>
+                        <div><strong>Mon-Sun 0:00 AM - 24:00 PM</strong><span>Fraud recovery support</span></div>
                     </div>
                     <p>Email <strong>legal@consumerrights.org</strong> to reserve a slot.</p>
                 </div>

@@ -455,6 +455,7 @@ body.easy-read .main-nav a, body.easy-read p, body.easy-read li, body.easy-read 
 .hours-list div { display:flex; justify-content:space-between; gap:1rem; color: var(--muted); }
 .hours-list strong { color: var(--text); text-align:right; }
 .contact-list strong { line-height:1.4; }
+.contact-list span { white-space: nowrap; }
 .small-link-btn { width:auto; display:inline-flex; align-items:center; justify-content:center; }
 .final-help-bar { margin-bottom: 0.5rem; }
 .no-margin { margin:0; }
@@ -512,6 +513,13 @@ body.easy-read .main-nav a, body.easy-read p, body.easy-read li, body.easy-read 
 .download-item:hover { background: var(--surface-alt); }
 .download-item span { color: var(--primary); font-weight: 600; }
 .activity-item { display:flex; gap:0.65rem; align-items:flex-start; }
+.activity-content { min-width: 0; }
+.activity-time {
+    margin-left: auto;
+    color: var(--muted);
+    white-space: nowrap;
+    text-align: right;
+}
 .timeline-dot.active { background: var(--primary); }
 .history-list div { color: var(--text); border-bottom:1px solid var(--border); padding-bottom:0.55rem; }
 .history-list div:last-child { border-bottom:none; padding-bottom:0; }
