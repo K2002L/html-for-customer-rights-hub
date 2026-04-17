@@ -848,6 +848,204 @@ body {
     font-weight: 700;
 }
 
+.screenreader-shell {
+    display: grid;
+}
+
+.screenreader-panel {
+    border: 2px solid #d6e3fb;
+    border-radius: 1rem;
+    overflow: hidden;
+    background: #f8fbff;
+}
+
+.screenreader-controls {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    border-bottom: 1px solid #d6e3fb;
+    background: #ffffff;
+}
+
+.screenreader-icon-btn {
+    border: none;
+    border-right: 1px solid #d6e3fb;
+    background: #ffffff;
+    min-height: 4.4rem;
+    font-size: 1.55rem;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+    color: #111827;
+}
+
+.screenreader-icon-btn:last-child {
+    border-right: none;
+}
+
+.screenreader-icon-btn.active {
+    background: #eaf2ff;
+    color: #111827;
+}
+
+.screenreader-status {
+    padding: 1rem 1.2rem;
+    border-bottom: 1px solid #d6e3fb;
+    background: #fff8dd;
+    color: #8a5a00;
+    font-weight: 600;
+    text-align: left;
+}
+
+.screenreader-row {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.15rem 1.25rem;
+    border-bottom: 1px solid #d6e3fb;
+    background: #ffffff;
+}
+
+.screenreader-row:last-child {
+    border-bottom: none;
+}
+
+.screenreader-row-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+}
+
+.screenreader-row-content {
+    display: grid;
+    gap: 0.7rem;
+    text-align: left;
+}
+
+.screenreader-row-content strong {
+    margin: 0;
+}
+
+.screenreader-panel .screenreader-row:nth-of-type(2),
+.screenreader-panel .screenreader-row:nth-of-type(3),
+.screenreader-panel .screenreader-row:nth-of-type(4) {
+    grid-template-columns: 64px 180px 1fr;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.screenreader-panel .screenreader-row:nth-of-type(2) .screenreader-row-content,
+.screenreader-panel .screenreader-row:nth-of-type(3) .screenreader-row-content,
+.screenreader-panel .screenreader-row:nth-of-type(4) .screenreader-row-content {
+    display: contents;
+}
+
+.screenreader-inline-control {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+}
+
+.screenreader-value {
+    min-width: 3rem;
+    color: var(--muted);
+    font-weight: 600;
+    text-align: center;
+}
+
+.screenreader-adjust-btn {
+    width: 2.6rem;
+    height: 2.6rem;
+    border-radius: 0.7rem;
+    border: 1px solid #c6d5eb;
+    background: #ffffff;
+    color: var(--primary);
+    font-size: 1.2rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.screenreader-speed-group {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 0.55rem;
+    justify-content: flex-start;
+}
+
+.screenreader-speed-btn {
+    border: 1px solid #c6d5eb;
+    background: #ffffff;
+    color: var(--text);
+    border-radius: 999px;
+    padding: 0.5rem 0.8rem;
+    cursor: pointer;
+    min-width: 0;
+    white-space: nowrap;
+}
+
+.screenreader-speed-btn.active {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: #ffffff;
+}
+
+.screenreader-listen-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    width: 100%;
+}
+
+.screenreader-listen-label {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--text);
+}
+
+.screenreader-toggle-btn {
+    border: 2px solid #31343a;
+    background: #f7e9ea;
+    color: #6f5960;
+    border-radius: 999px;
+    width: 5.25rem;
+    height: 3rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.25rem 0.5rem 0.25rem 0.28rem;
+    cursor: pointer;
+}
+
+.screenreader-toggle-btn.active {
+    background: #dff7e8;
+    color: #18794e;
+    border-color: #2f6f52;
+    flex-direction: row-reverse;
+    padding: 0.25rem 0.28rem 0.25rem 0.5rem;
+}
+
+.screenreader-toggle-knob {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 999px;
+    background: #efe3e4;
+    border: 1px solid #3b3f46;
+    display: inline-block;
+}
+
+.screenreader-toggle-btn.active .screenreader-toggle-knob {
+    background: #f4fff8;
+    border-color: #2f6f52;
+}
+
+.screenreader-toggle-close {
+    font-size: 1.55rem;
+    line-height: 1;
+    transform: translateY(-1px);
+    font-weight: 700;
+}
+
 .chat-window,
 .schedule-list {
     display: grid;
@@ -892,5 +1090,14 @@ body.modal-open {
 
     .chat-send-btn {
         min-height: 4rem;
+    }
+
+    .screenreader-controls {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .screenreader-row {
+        grid-template-columns: 1fr;
+        justify-items: start;
     }
 }

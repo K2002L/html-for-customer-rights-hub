@@ -104,6 +104,60 @@ function renderLiveChatChooser() {
     );
 }
 
+function renderScreenReaderModal() {
+    openModal(
+        'Screen Reader',
+        `
+        <div class="screenreader-shell">
+            <div class="screenreader-panel">
+                <div class="screenreader-controls">
+                    <button type="button" class="screenreader-icon-btn" data-screenreader-demo="previous" aria-label="Previous section">⏮</button>
+                    <button type="button" class="screenreader-icon-btn" data-screenreader-demo="next" aria-label="Next section">⏭</button>
+                    <button type="button" class="screenreader-icon-btn active" data-screenreader-demo="play" aria-label="Play reading">▶</button>
+                    <button type="button" class="screenreader-icon-btn" data-screenreader-demo="stop" aria-label="Stop reading">■</button>
+                </div>
+                <div class="screenreader-status" data-screenreader-status>Ready to read the current page aloud.</div>
+                <div class="screenreader-row">
+                    <span class="screenreader-row-icon">🔊</span>
+                    <div class="screenreader-row-content">
+                        <strong>Volume Control</strong>
+                        <div class="screenreader-inline-control">
+                            <button type="button" class="screenreader-adjust-btn" data-screenreader-volume-step="-10" aria-label="Decrease volume">-</button>
+                            <span class="screenreader-value" data-screenreader-volume-value>70%</span>
+                            <button type="button" class="screenreader-adjust-btn" data-screenreader-volume-step="10" aria-label="Increase volume">+</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="screenreader-row">
+                    <span class="screenreader-row-icon">⏱</span>
+                    <div class="screenreader-row-content">
+                        <strong>Playback Speed</strong>
+                        <div class="screenreader-speed-group">
+                            <button type="button" class="screenreader-speed-btn" data-screenreader-speed="0.75x">0.75x</button>
+                            <button type="button" class="screenreader-speed-btn active" data-screenreader-speed="1x">1x</button>
+                            <button type="button" class="screenreader-speed-btn" data-screenreader-speed="1.25x">1.25x</button>
+                            <button type="button" class="screenreader-speed-btn" data-screenreader-speed="1.5x">1.5x</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="screenreader-row">
+                    <span class="screenreader-row-icon">🖱</span>
+                    <div class="screenreader-row-content">
+                        <div class="screenreader-listen-toggle">
+                            <span class="screenreader-listen-label">Click and Listen</span>
+                            <button type="button" class="screenreader-toggle-btn" data-screenreader-toggle aria-label="Click and Listen" aria-pressed="false">
+                                <span class="screenreader-toggle-knob"></span>
+                                <span class="screenreader-toggle-close" data-screenreader-toggle-icon>✕</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        `,
+    );
+}
+
 function renderChatModal(mode) {
     const isAi = mode === 'ai';
     const title = isAi ? 'Chat with AI' : 'Chat with Human';
@@ -147,6 +201,9 @@ document.addEventListener('click', (event) => {
         const modalType = trigger.dataset.modal;
         if (modalType === 'start-chat') {
             renderLiveChatChooser();
+        }
+        if (modalType === 'screen-reader') {
+            renderScreenReaderModal();
         }
         if (modalType === 'call-support') {
             openModal(
@@ -271,6 +328,75 @@ document.addEventListener('submit', (event) => {
     `;
 
     textarea.value = '';
+});
+
+document.addEventListener('click', (event) => {
+    const demoTrigger = event.target.closest('[data-screenreader-demo]');
+    const speedTrigger = event.target.closest('[data-screenreader-speed]');
+    const toggleTrigger = event.target.closest('[data-screenreader-toggle]');
+    const volumeStepTrigger = event.target.closest('[data-screenreader-volume-step]');
+    const status = modalBody?.querySelector('[data-screenreader-status]');
+
+    if (toggleTrigger && modalBody) {
+        const isActive = toggleTrigger.classList.toggle('active');
+        toggleTrigger.setAttribute('aria-pressed', String(isActive));
+        const icon = toggleTrigger.querySelector('[data-screenreader-toggle-icon]');
+        if (icon) {
+            icon.textContent = isActive ? '✓' : '✕';
+        }
+        if (status) {
+            status.textContent = isActive
+                ? 'Click and Listen is enabled. Select page content to hear it read aloud.'
+                : 'Click and Listen is turned off.';
+        }
+        return;
+    }
+
+    if (volumeStepTrigger && modalBody) {
+        const volumeValue = modalBody.querySelector('[data-screenreader-volume-value]');
+        if (!volumeValue) return;
+        const current = Number.parseInt(volumeValue.textContent, 10) || 70;
+        const step = Number.parseInt(volumeStepTrigger.dataset.screenreaderVolumeStep, 10) || 0;
+        const next = Math.min(100, Math.max(0, current + step));
+        volumeValue.textContent = `${next}%`;
+        if (status) {
+            status.textContent = `Volume adjusted to ${next}%.`;
+        }
+        return;
+    }
+
+    if (demoTrigger && modalBody) {
+        const groupedActions = ['previous', 'next', 'play', 'stop'];
+        if (groupedActions.includes(demoTrigger.dataset.screenreaderDemo)) {
+            modalBody.querySelectorAll('[data-screenreader-demo]').forEach((button) => {
+                if (groupedActions.includes(button.dataset.screenreaderDemo)) {
+                    button.classList.toggle('active', button === demoTrigger);
+                }
+            });
+        }
+    }
+
+    if (speedTrigger && modalBody) {
+        modalBody.querySelectorAll('[data-screenreader-speed]').forEach((button) => {
+            button.classList.toggle('active', button === speedTrigger);
+        });
+        if (status) {
+            status.textContent = `Playback speed set to ${speedTrigger.dataset.screenreaderSpeed}.`;
+        }
+    }
+
+    if (!demoTrigger || !status) return;
+
+    const action = demoTrigger.dataset.screenreaderDemo;
+    const messages = {
+        previous: 'Moved to the previous readable section.',
+        next: 'Moved to the next readable section.',
+        play: 'Screen reader audio preview is ready.',
+        stop: 'Screen reader playback stopped.',
+        'play-page': 'Reading the current page aloud now.',
+    };
+
+    status.textContent = messages[action] || 'Screen reader updated.';
 });
 
 document.addEventListener('submit', (event) => {
