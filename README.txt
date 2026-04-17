@@ -3,7 +3,7 @@ Consumer Rights Platform - Improved Flask Prototype
 ## Live Demo
 
 Deployed on Render:  
-https://your-render-url.onrender.com
+https://html-for-customer-rights-hub.onrender.com
 
 How to run:
 1. Open this folder in PyCharm.
