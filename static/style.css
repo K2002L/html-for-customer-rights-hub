@@ -929,7 +929,7 @@ body {
 .screenreader-panel .screenreader-row:nth-of-type(2),
 .screenreader-panel .screenreader-row:nth-of-type(3),
 .screenreader-panel .screenreader-row:nth-of-type(4) {
-    grid-template-columns: 64px 180px 1fr;
+    grid-template-columns: 64px 190px minmax(0, 1fr);
     align-items: center;
     gap: 0.75rem;
 }
@@ -944,6 +944,8 @@ body {
     display: flex;
     align-items: center;
     gap: 0.9rem;
+    justify-self: start;
+    min-height: 2.6rem;
 }
 
 .screenreader-value {
@@ -966,10 +968,12 @@ body {
 }
 
 .screenreader-speed-group {
-    display: flex;
-    flex-wrap: nowrap;
-    gap: 0.55rem;
-    justify-content: flex-start;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 4.5rem));
+    gap: 0.45rem;
+    justify-content: start;
+    justify-self: start;
+    min-height: 2.6rem;
 }
 
 .screenreader-speed-btn {
@@ -977,10 +981,14 @@ body {
     background: #ffffff;
     color: var(--text);
     border-radius: 999px;
-    padding: 0.5rem 0.8rem;
+    padding: 0.4rem 0.35rem;
+    font-size: 0.92rem;
+    line-height: 1.2;
     cursor: pointer;
+    width: 100%;
     min-width: 0;
     white-space: nowrap;
+    text-align: center;
 }
 
 .screenreader-speed-btn.active {
