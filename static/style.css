@@ -310,6 +310,15 @@ img { max-width: 100%; }
 .step span {
     width: 2rem; height: 2rem; border-radius: 999px; display: inline-flex; align-items: center; justify-content: center; background: var(--surface-alt); color: var(--muted); font-weight: 700; margin-bottom: 0.45rem;
 }
+.step strong {
+    display: block;
+    margin-bottom: 0.4rem;
+}
+.step small {
+    display: block;
+    color: var(--muted);
+    line-height: 1.4;
+}
 .step.current { border-color: #b7cdf5; }
 .step.current span, .step.complete span { background: var(--primary); color: white; }
 .form-card { max-width: 980px; margin: 0 auto 0.8rem; padding: 1.4rem; }
@@ -579,6 +588,10 @@ body {
 .overview-fill.pending { background: #f59e0b; }
 .overview-fill.active { background: var(--primary); }
 .overview-fill.resolved { background: #16a34a; }
+.merged-overview-stats {
+    margin-top: 1rem;
+    margin-bottom: 1.5rem;
+}
 
 .story-detail-copy {
     display: grid;

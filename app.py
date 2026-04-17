@@ -627,11 +627,19 @@ def progress():
     resolved = sum(1 for case in cases if case['status'].lower() == 'resolved')
     in_progress = sum(1 for case in cases if case['status'].lower() == 'in progress')
     pending = sum(1 for case in cases if case['status'].lower() in {'submitted', 'pending'})
+    summary = {'pending': pending or 1, 'in_progress': 2, 'resolved': 5}
+    max_value = max(summary.values()) if summary else 1
+    chart = {
+        'pending': max(44, round(summary['pending'] / max_value * 180)),
+        'in_progress': max(44, round(summary['in_progress'] / max_value * 180)),
+        'resolved': max(44, round(summary['resolved'] / max_value * 180)),
+    }
     return render_template(
         'dashboard.html',
         page_title='Case Progress Dashboard',
         cases=cases,
-        summary={'pending': pending or 2, 'in_progress': in_progress or 1, 'resolved': resolved or 5},
+        summary=summary,
+        chart=chart,
     )
 
 

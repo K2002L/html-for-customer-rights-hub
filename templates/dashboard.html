@@ -6,27 +6,26 @@
     <p>Track the status of your consumer rights protection cases.</p>
 </section>
 
-<section class="stats-row three-up alt-gap compact-max">
-    <div class="stat-box"><small>Pending Review</small><strong>{{ summary.pending }}</strong><span>Awaiting initial review</span></div>
-    <div class="stat-box"><small>In Progress</small><strong>{{ summary.in_progress }}</strong><span>Active case resolution</span></div>
-    <div class="stat-box"><small>Resolved</small><strong>{{ summary.resolved }}</strong><span>Successfully completed</span></div>
-</section>
-
 <section class="section-card compact-max">
     <h2>Case Overview</h2>
+    <div class="stats-row three-up alt-gap merged-overview-stats">
+        <div class="stat-box"><small>Pending Review</small><strong>{{ summary.pending }}</strong><span>Awaiting initial review</span></div>
+        <div class="stat-box"><small>In Progress</small><strong>{{ summary.in_progress }}</strong><span>Active case resolution</span></div>
+        <div class="stat-box"><small>Resolved</small><strong>{{ summary.resolved }}</strong><span>Successfully completed</span></div>
+    </div>
     <div class="overview-bars" aria-label="Case overview chart">
         <div class="overview-bar">
-            <div class="overview-fill pending" style="height: 32%"></div>
+            <div class="overview-fill pending" style="height: {{ chart.pending }}px"></div>
             <strong>{{ summary.pending }}</strong>
             <small>Pending</small>
         </div>
         <div class="overview-bar">
-            <div class="overview-fill active" style="height: 52%"></div>
+            <div class="overview-fill active" style="height: {{ chart.in_progress }}px"></div>
             <strong>{{ summary.in_progress }}</strong>
             <small>In Progress</small>
         </div>
         <div class="overview-bar">
-            <div class="overview-fill resolved" style="height: 88%"></div>
+            <div class="overview-fill resolved" style="height: {{ chart.resolved }}px"></div>
             <strong>{{ summary.resolved }}</strong>
             <small>Resolved</small>
         </div>
