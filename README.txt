@@ -7,11 +7,10 @@ https://html-for-customer-rights-hub.onrender.com
 Note: The first visit may take a little longer to load because the free Render service wakes the server from sleep after inactivity.
 
 How to run:
-1. Open this folder in PyCharm.
-2. Create/select a virtual environment.
-3. Run: pip install -r requirements.txt
-4. Run: python app.py
-5. Open: http://127.0.0.1:5000
+1. Open this folder in a Python IDE.
+2. Run: pip install -r requirements.txt
+3. Run: python app.py
+4. Open: http://127.0.0.1:5000
 
 This version includes:
 - Login / register page
