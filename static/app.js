@@ -420,3 +420,71 @@ document.addEventListener('keydown', (event) => {
         closeModal();
     }
 });
+
+document.querySelectorAll('[data-file-upload-input]').forEach((input) => {
+    const targetId = input.dataset.fileNameTarget;
+    const nameLabel = targetId ? document.getElementById(targetId) : null;
+    const listId = input.dataset.fileListTarget;
+    const fileList = listId ? document.getElementById(listId) : null;
+    if (!nameLabel) return;
+
+    let selectedFiles = [];
+
+    const applySelectedFilesToInput = () => {
+        const transfer = new DataTransfer();
+        selectedFiles.forEach((file) => transfer.items.add(file));
+        input.files = transfer.files;
+    };
+
+    const renderFileList = () => {
+        if (!fileList) return;
+        fileList.innerHTML = '';
+        selectedFiles.forEach((file, index) => {
+            const item = document.createElement('li');
+            const name = document.createElement('span');
+            name.textContent = file.name;
+            const removeButton = document.createElement('button');
+            removeButton.type = 'button';
+            removeButton.className = 'file-upload-remove';
+            removeButton.setAttribute('aria-label', `Remove ${file.name}`);
+            removeButton.textContent = '×';
+            removeButton.addEventListener('click', (event) => {
+                event.preventDefault();
+                event.stopPropagation();
+                selectedFiles = selectedFiles.filter((_, i) => i !== index);
+                syncFileState();
+            });
+            item.appendChild(name);
+            item.appendChild(removeButton);
+            fileList.appendChild(item);
+        });
+        fileList.hidden = selectedFiles.length === 0;
+    };
+
+    const syncFileState = () => {
+        applySelectedFilesToInput();
+        nameLabel.textContent = selectedFiles.length === 0
+            ? 'No file selected'
+            : `${selectedFiles.length} file${selectedFiles.length > 1 ? 's' : ''} selected`;
+        renderFileList();
+    };
+
+    input.addEventListener('change', () => {
+        const incomingFiles = Array.from(input.files || []);
+        if (incomingFiles.length === 0) return;
+        incomingFiles.forEach((file) => {
+            const exists = selectedFiles.some(
+                (current) =>
+                    current.name === file.name
+                    && current.size === file.size
+                    && current.lastModified === file.lastModified,
+            );
+            if (!exists) {
+                selectedFiles.push(file);
+            }
+        });
+        syncFileState();
+    });
+
+    syncFileState();
+});

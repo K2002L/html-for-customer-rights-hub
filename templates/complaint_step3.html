@@ -15,10 +15,20 @@
 
 <section class="form-card">
     <form method="post" enctype="multipart/form-data" class="stack-form">
-        <label>Upload file (prototype)<input type="file" name="evidence_file"></label>
+        <div class="file-upload-field">
+            <span class="file-upload-label">Upload file</span>
+            <input type="file" name="evidence_file" id="evidence_file" class="file-upload-input" data-file-upload-input data-file-name-target="evidenceFileName" data-file-list-target="evidenceFileList" multiple>
+            <label for="evidence_file" class="file-upload-dropzone">
+                <span class="file-upload-icon">☁</span>
+                <strong>Choose a file from your device</strong>
+                <span class="outline-btn file-upload-browse">Browse File</span>
+                <small id="evidenceFileName" class="file-upload-name">No file selected</small>
+                <ul id="evidenceFileList" class="file-upload-list" hidden></ul>
+            </label>
+        </div>
         <label>Or type evidence name *<input type="text" name="evidence_name" value="{{ form_data.get('evidence_name', '') }}" placeholder="Receipt.pdf or screenshot name"></label>
         <div class="info-banner">Accepted examples: receipts, screenshots, seller communication, bank statements, shipping labels.</div>
-        <div class="form-actions space-between"><a href="{{ url_for('complaint_step2') }}" class="outline-btn">Back</a><button type="submit" class="primary-btn">Submit Complaint</button></div>
+        <div class="form-actions split-equal"><a href="{{ url_for('complaint_step2') }}" class="outline-btn">Back</a><button type="submit" class="primary-btn">Submit Complaint</button></div>
     </form>
 </section>
 {% endblock %}

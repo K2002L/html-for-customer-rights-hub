@@ -602,14 +602,33 @@ def support():
 @app.route('/community')
 def community():
     selected = request.args.get('cat', 'all').lower()
-    filtered = SUCCESS_CASES if selected == 'all' else [case for case in SUCCESS_CASES if case['tag'].lower() == selected]
+    query_text = request.args.get('q', '').strip()
+    category_filtered = SUCCESS_CASES if selected == 'all' else [case for case in SUCCESS_CASES if case['tag'].lower() == selected]
+    if query_text:
+        query_lower = query_text.lower()
+        filtered = [
+            case
+            for case in category_filtered
+            if query_lower in case['title'].lower()
+            or query_lower in case['summary'].lower()
+            or query_lower in case['tag'].lower()
+        ]
+    else:
+        filtered = category_filtered
     counts = {
         'all': len(SUCCESS_CASES),
         'shopping': sum(1 for case in SUCCESS_CASES if case['tag'].lower() == 'shopping'),
         'fraud': sum(1 for case in SUCCESS_CASES if case['tag'].lower() == 'fraud'),
         'subscription': sum(1 for case in SUCCESS_CASES if case['tag'].lower() == 'subscription'),
     }
-    return render_template('community.html', page_title='Community Success Cases', success_cases=filtered, counts=counts, selected_filter=selected)
+    return render_template(
+        'community.html',
+        page_title='Community Success Cases',
+        success_cases=filtered,
+        counts=counts,
+        selected_filter=selected,
+        search_query=query_text,
+    )
 
 
 @app.route('/community/story/<int:story_id>')
@@ -735,9 +754,10 @@ def complaint_step3():
     form_data = session.get('complaint_form', {})
     if request.method == 'POST':
         evidence_name = request.form.get('evidence_name', '').strip()
-        uploaded_file = request.files.get('evidence_file')
-        if uploaded_file and uploaded_file.filename:
-            evidence_name = uploaded_file.filename
+        uploaded_files = [file for file in request.files.getlist('evidence_file') if file and file.filename]
+        if uploaded_files:
+            file_names = ', '.join(file.filename for file in uploaded_files)
+            evidence_name = evidence_name or file_names
         if not evidence_name:
             flash('Please add at least one supporting document name or choose a file.', 'error')
         else:

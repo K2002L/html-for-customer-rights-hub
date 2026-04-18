@@ -13,16 +13,35 @@
     <div class="stat-box"><strong>16</strong><span>Avg Days to Resolve</span></div>
 </section>
 
+<section class="community-search-bar compact-max">
+    <form method="get" action="{{ url_for('community') }}" class="community-search-form">
+        <input type="hidden" name="cat" value="{{ selected_filter }}">
+        <input
+            type="text"
+            name="q"
+            value="{{ search_query }}"
+            placeholder="Search cases by title, summary, or category"
+            aria-label="Search community success cases"
+        >
+        <button type="submit" class="primary-btn small">Search</button>
+    </form>
+</section>
+
 <section class="community-layout compact-max">
     <aside class="community-filter section-card no-margin">
         <h2>Filter by Category</h2>
-        <a class="filter-link {% if selected_filter == 'all' %}active{% endif %}" href="{{ url_for('community', cat='all') }}">All Cases <span>{{ counts.all }}</span></a>
-        <a class="filter-link {% if selected_filter == 'shopping' %}active{% endif %}" href="{{ url_for('community', cat='shopping') }}">Shopping <span>{{ counts.shopping }}</span></a>
-        <a class="filter-link {% if selected_filter == 'fraud' %}active{% endif %}" href="{{ url_for('community', cat='fraud') }}">Fraud <span>{{ counts.fraud }}</span></a>
-        <a class="filter-link {% if selected_filter == 'subscription' %}active{% endif %}" href="{{ url_for('community', cat='subscription') }}">Subscriptions <span>{{ counts.subscription }}</span></a>
+        <a class="filter-link {% if selected_filter == 'all' %}active{% endif %}" href="{{ url_for('community', cat='all', q=search_query) }}">All Cases <span>{{ counts.all }}</span></a>
+        <a class="filter-link {% if selected_filter == 'shopping' %}active{% endif %}" href="{{ url_for('community', cat='shopping', q=search_query) }}">Shopping <span>{{ counts.shopping }}</span></a>
+        <a class="filter-link {% if selected_filter == 'fraud' %}active{% endif %}" href="{{ url_for('community', cat='fraud', q=search_query) }}">Fraud <span>{{ counts.fraud }}</span></a>
+        <a class="filter-link {% if selected_filter == 'subscription' %}active{% endif %}" href="{{ url_for('community', cat='subscription', q=search_query) }}">Subscriptions <span>{{ counts.subscription }}</span></a>
     </aside>
 
     <div class="stacked-cases community-cases">
+        {% if not success_cases %}
+        <article class="section-card no-margin">
+            <p class="muted">No cases found for your current filters.</p>
+        </article>
+        {% endif %}
         {% for case in success_cases %}
         <article class="case-story detailed-story">
             <div class="story-head">
